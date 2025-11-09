@@ -13,3 +13,5 @@ vim.keymap.set("n", "<space>st", function()
     vim.cmd.wincmd("J")
     vim.api.nvim_win_set_height(0, 15)
 end, { desc = "Open terminal in bottom split" })
+
+vim.keymap.set("x", "<leader>p", [["_dP]])

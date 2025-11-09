@@ -12,35 +12,26 @@ return {
                     enabled = false,
                 },
             },
-            picker = { enabled = true },
+            picker = {
+                enabled = true,
+                sources = {
+                    explorer = {
+                        layout = {
+                            layout = {
+                                position = "right",
+                            },
+                        },
+                    },
+                },
+            },
             gh = { enabled = true },
             git = { enabled = true },
-            gitbrowse = { enabled = true },
+            gitbrowse = { enabled = false },
             lazygit = { enabled = true },
+            words = { enabled = true },
         },
         keys = {
             -- Top Pickers & Explorer
-            {
-                "<leader><space>",
-                function()
-                    Snacks.picker.smart()
-                end,
-                desc = "Smart Find Files",
-            },
-            {
-                "<leader>,",
-                function()
-                    Snacks.picker.buffers()
-                end,
-                desc = "Buffers",
-            },
-            {
-                "<leader>/",
-                function()
-                    Snacks.picker.grep()
-                end,
-                desc = "Grep",
-            },
             {
                 "<leader>:",
                 function()
@@ -68,7 +59,7 @@ return {
                 function()
                     Snacks.picker.buffers()
                 end,
-                desc = "Buffers",
+                desc = "Find Buffers",
             },
             {
                 "<leader>fc",
@@ -96,14 +87,21 @@ return {
                 function()
                     Snacks.picker.projects()
                 end,
-                desc = "Projects",
+                desc = "Find Projects",
             },
             {
                 "<leader>fr",
                 function()
                     Snacks.picker.recent()
                 end,
-                desc = "Recent",
+                desc = "Find Recent",
+            },
+            {
+                "<leader>fi",
+                function()
+                    Snacks.picker.files({ ignored = true, hidden = true })
+                end,
+                desc = "Find Files (with Ignored)",
             },
             -- git
             {
@@ -207,6 +205,13 @@ return {
                 desc = "Grep",
             },
             {
+                "<leader>si",
+                function()
+                    Snacks.picker.grep({ ignored = true, hidden = true })
+                end,
+                desc = "Grep (with Ignored)",
+            },
+            {
                 "<leader>sw",
                 function()
                     Snacks.picker.grep_word()
@@ -286,11 +291,11 @@ return {
                 desc = "Highlights",
             },
             {
-                "<leader>si",
+                "<leader>se",
                 function()
                     Snacks.picker.icons()
                 end,
-                desc = "Icons",
+                desc = "Search Emoji/Icons",
             },
             {
                 "<leader>sj",
@@ -354,13 +359,6 @@ return {
                     Snacks.picker.undo()
                 end,
                 desc = "Undo History",
-            },
-            {
-                "<leader>uC",
-                function()
-                    Snacks.picker.colorschemes()
-                end,
-                desc = "Colorschemes",
             },
             -- LSP
             {
@@ -429,34 +427,6 @@ return {
             },
             -- Other
             {
-                "<leader>z",
-                function()
-                    Snacks.zen()
-                end,
-                desc = "Toggle Zen Mode",
-            },
-            {
-                "<leader>Z",
-                function()
-                    Snacks.zen.zoom()
-                end,
-                desc = "Toggle Zoom",
-            },
-            {
-                "<leader>.",
-                function()
-                    Snacks.scratch()
-                end,
-                desc = "Toggle Scratch Buffer",
-            },
-            {
-                "<leader>S",
-                function()
-                    Snacks.scratch.select()
-                end,
-                desc = "Select Scratch Buffer",
-            },
-            {
                 "<leader>n",
                 function()
                     Snacks.notifier.show_history()
@@ -493,27 +463,6 @@ return {
                 desc = "Lazygit",
             },
             {
-                "<leader>un",
-                function()
-                    Snacks.notifier.hide()
-                end,
-                desc = "Dismiss All Notifications",
-            },
-            {
-                "<c-/>",
-                function()
-                    Snacks.terminal()
-                end,
-                desc = "Toggle Terminal",
-            },
-            {
-                "<c-_>",
-                function()
-                    Snacks.terminal()
-                end,
-                desc = "which_key_ignore",
-            },
-            {
                 "]]",
                 function()
                     Snacks.words.jump(vim.v.count1)
@@ -528,24 +477,6 @@ return {
                 end,
                 desc = "Prev Reference",
                 mode = { "n", "t" },
-            },
-            {
-                "<leader>N",
-                desc = "Neovim News",
-                function()
-                    Snacks.win({
-                        file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
-                        width = 0.6,
-                        height = 0.6,
-                        wo = {
-                            spell = false,
-                            wrap = false,
-                            signcolumn = "yes",
-                            statuscolumn = " ",
-                            conceallevel = 3,
-                        },
-                    })
-                end,
             },
         },
         init = function()
