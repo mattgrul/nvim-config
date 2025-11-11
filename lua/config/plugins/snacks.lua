@@ -1,6 +1,7 @@
 return {
     {
         "folke/snacks.nvim",
+        enabled = true,
         priority = 1000,
         lazy = false,
         opts = {
@@ -32,6 +33,13 @@ return {
         },
         keys = {
             -- Top Pickers & Explorer
+            {
+                "<leader><space>",
+                function()
+                    Snacks.picker.smart()
+                end,
+                desc = "Smart Find Files",
+            },
             {
                 "<leader>:",
                 function()

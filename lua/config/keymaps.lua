@@ -15,3 +15,7 @@ vim.keymap.set("n", "<space>st", function()
 end, { desc = "Open terminal in bottom split" })
 
 vim.keymap.set("x", "<leader>p", [["_dP]])
+
+vim.keymap.set("n", "<leader>dq", function()
+    vim.diagnostic.setqflist({ open = true })
+end, { desc = "Show all diagnostics in quickfix" })

@@ -9,7 +9,7 @@ return {
                 opts = {
                     library = {
                         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-                        { path = "snacks.nvim", words = { "Snacks" } },
+                        { path = "snacks.nvim",        words = { "Snacks" } },
                     },
                 },
             },
@@ -26,9 +26,20 @@ return {
                     end
 
                     -- LSP hover with rounded border
-                    vim.keymap.set('n', 'K', function()
+                    vim.keymap.set("n", "K", function()
                         vim.lsp.buf.hover({ border = "rounded" })
                     end, { buffer = args.buf, desc = "LSP Hover" })
+
+                    -- Code actions (normal and visual mode)
+                    vim.keymap.set(
+                        { "n", "v" },
+                        "<leader>ca",
+                        vim.lsp.buf.code_action,
+                        { buffer = args.buf, desc = "Code Action" }
+                    )
+
+                    -- LSP rename
+                    vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename" })
 
                     -- Auto-format on save
                     vim.api.nvim_create_autocmd("BufWritePre", {
@@ -60,6 +71,18 @@ return {
                     function(server_name)
                         lspconfig[server_name].setup({
                             capabilities = capabilities,
+                        })
+                    end,
+
+                    -- Intelephense-specific handler for proper Magento/Laravel root detection
+                    intelephense = function()
+                        local util = require("lspconfig.util")
+                        lspconfig.intelephense.setup({
+                            capabilities = capabilities,
+                            -- Search for .git directory first, fall back to cwd
+                            root_dir = function(fname)
+                                return util.root_pattern('.git')(fname) or vim.uv.cwd()
+                            end,
                         })
                     end,
                 },
